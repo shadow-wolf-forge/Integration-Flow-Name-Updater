@@ -13,8 +13,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #0a0e27;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,96 +24,174 @@
             overflow: hidden;
         }
 
+        /* Animated gradient background */
         body::before {
             content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -250px;
-            right: -250px;
-            animation: float 8s ease-in-out infinite;
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 77, 109, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(138, 60, 255, 0.25) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
         }
 
-        body::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -200px;
-            left: -200px;
-            animation: float 10s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
+        @keyframes gradientShift {
             0%, 100% {
-                transform: translate(0, 0);
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
             }
             50% {
-                transform: translate(50px, 50px);
+                opacity: 0.8;
+                transform: scale(1.1) rotate(5deg);
+            }
+        }
+
+        /* Floating particles */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.15), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(255, 255, 255, 0.1), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.1), transparent),
+                radial-gradient(1px 1px at 80% 10%, rgba(255, 255, 255, 0.15), transparent),
+                radial-gradient(2px 2px at 90% 60%, rgba(255, 255, 255, 0.1), transparent),
+                radial-gradient(1px 1px at 33% 80%, rgba(255, 255, 255, 0.1), transparent);
+            background-size: 200% 200%;
+            animation: particleFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                background-position: 0% 0%, 100% 100%, 50% 50%, 80% 20%, 10% 90%, 70% 30%;
+            }
+            50% {
+                background-position: 100% 100%, 0% 0%, 70% 80%, 20% 80%, 90% 10%, 30% 70%;
             }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 30px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 32px;
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                0 1px 0 rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 50px;
-            max-width: 600px;
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 60px;
+            max-width: 640px;
             width: 100%;
             position: relative;
             z-index: 1;
+            transition: transform 0.3s ease;
         }
 
+        .container:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Glass reflection effect */
         .container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.5) 50%, 
+            height: 50%;
+            background: linear-gradient(180deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
                 transparent 100%);
-            border-radius: 30px 30px 0 0;
+            border-radius: 32px 32px 0 0;
+            pointer-events: none;
+        }
+
+        /* Glow effect on hover */
+        .container::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, 
+                rgba(120, 119, 198, 0.4),
+                rgba(255, 77, 109, 0.4),
+                rgba(138, 60, 255, 0.4));
+            border-radius: 32px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+            filter: blur(20px);
+        }
+
+        .container:hover::after {
+            opacity: 0.5;
         }
 
         h1 {
             text-align: center;
-            color: white;
-            margin-bottom: 40px;
-            font-size: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 48px;
+            font-size: 36px;
             font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
         }
 
         #drop-area {
-            border: 3px dashed rgba(255, 255, 255, 0.4);
-            border-radius: 20px;
-            padding: 60px 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 64px 32px;
             text-align: center;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             position: relative;
             overflow: hidden;
         }
 
+        /* Gradient border animation */
         #drop-area::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(45deg, 
+                #7877c6, 
+                #ff4d6d, 
+                #8a3cff, 
+                #7877c6);
+            background-size: 300% 300%;
+            border-radius: 24px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+            animation: gradientRotate 3s linear infinite;
+        }
+
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #drop-area:hover::before {
+            opacity: 0.6;
+        }
+
+        /* Shimmer effect */
+        #drop-area::after {
             content: '';
             position: absolute;
             top: -50%;
@@ -121,69 +199,89 @@
             width: 200%;
             height: 200%;
             background: linear-gradient(
-                45deg,
-                transparent 30%,
+                to bottom right,
+                transparent 40%,
                 rgba(255, 255, 255, 0.1) 50%,
-                transparent 70%
+                transparent 60%
             );
             transform: rotate(45deg);
-            transition: all 0.6s ease;
             opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        #drop-area:hover::before {
-            opacity: 1;
-            animation: shimmer 2s infinite;
+        #drop-area:hover::after {
+            animation: shimmer 2s ease-in-out infinite;
         }
 
         @keyframes shimmer {
             0% {
                 transform: translateX(-100%) translateY(-100%) rotate(45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
             }
             100% {
                 transform: translateX(100%) translateY(100%) rotate(45deg);
+                opacity: 0;
             }
         }
 
         #drop-area.highlight {
-            border-color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.02);
+            border-color: rgba(138, 60, 255, 0.6);
+            background: rgba(138, 60, 255, 0.08);
+            transform: scale(1.01);
             box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+                0 12px 40px rgba(138, 60, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        #drop-area.highlight::before {
+            opacity: 1;
         }
 
         #drop-area:hover {
-            border-color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
             box-shadow: 
-                0 5px 20px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .upload-icon {
-            font-size: 52px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            font-size: 64px;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 8px 16px rgba(138, 60, 255, 0.3));
             position: relative;
             z-index: 1;
+            display: inline-block;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .upload-text {
-            font-size: 20px;
-            color: white;
-            margin-bottom: 10px;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 12px;
             font-weight: 600;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.3px;
             position: relative;
             z-index: 1;
         }
 
         .upload-hint {
             font-size: 15px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
             position: relative;
             z-index: 1;
         }
@@ -194,91 +292,336 @@
 
         .file-label {
             display: inline-block;
-            padding: 14px 35px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            padding: 16px 40px;
+            background: linear-gradient(135deg, 
+                rgba(138, 60, 255, 0.8) 0%, 
+                rgba(120, 119, 198, 0.8) 100%);
             color: white;
-            border-radius: 30px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.3px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+                0 8px 24px rgba(138, 60, 255, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
             position: relative;
             z-index: 1;
+            overflow: hidden;
+        }
+
+        .file-label::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .file-label:hover::before {
+            opacity: 1;
         }
 
         .file-label:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-4px);
             box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                0 16px 40px rgba(138, 60, 255, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
 
         .file-label:active {
-            transform: translateY(-1px);
-        }
-
-        #status {
-            margin-top: 25px;
-            padding: 18px;
-            border-radius: 15px;
-            text-align: center;
-            font-weight: 500;
-            display: none;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
             box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.1),
+                0 8px 24px rgba(138, 60, 255, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
+        #status {
+            margin-top: 32px;
+            padding: 20px 24px;
+            border-radius: 16px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 15px;
+            display: none;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: statusFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        @keyframes statusFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Processing animation */
+        .processing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            max-width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(138, 60, 255, 0.8) 0%, 
+                rgba(120, 119, 198, 0.8) 100%);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(138, 60, 255, 0.5);
+        }
+
+        .progress-bar.animating {
+            animation: progressGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes progressGlow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(138, 60, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(138, 60, 255, 0.8);
+            }
+        }
+
+        .processing-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Pigeon delivery animation */
+        .pigeon-delivery {
+            position: fixed;
+            top: 50%;
+            left: -100px;
+            transform: translateY(-50%);
+            font-size: 80px;
+            z-index: 1000;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+            animation: pigeonFly 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            pointer-events: none;
+        }
+
+        @keyframes pigeonFly {
+            0% {
+                left: -100px;
+                transform: translateY(-50%) rotate(-10deg);
+            }
+            45% {
+                left: 50%;
+                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1.2);
+            }
+            55% {
+                left: 50%;
+                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1.2);
+            }
+            100% {
+                left: 50%;
+                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1);
+            }
+        }
+
+        .pigeon-bounce {
+            animation: pigeonBounce 0.6s ease-in-out infinite;
+        }
+
+        @keyframes pigeonBounce {
+            0%, 100% {
+                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1);
+            }
+            50% {
+                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1.05) translateY(-5px);
+            }
+        }
+
+        /* Message bubble */
+        .message-bubble {
+            position: fixed;
+            top: calc(50% + 60px);
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            animation: bubbleAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) 3s forwards;
+            color: #0a0e27;
+            font-weight: 600;
+            font-size: 18px;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .message-bubble::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid rgba(255, 255, 255, 0.95);
+        }
+
+        @keyframes bubbleAppear {
+            0% {
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.1);
+            }
+            100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #8a3cff;
+            position: fixed;
+            top: -10px;
+            z-index: 999;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         .status-info {
-            background: rgba(33, 150, 243, 0.2);
-            color: white;
-            border-left: 4px solid rgba(33, 150, 243, 0.8);
+            background: linear-gradient(135deg, 
+                rgba(59, 130, 246, 0.15) 0%, 
+                rgba(59, 130, 246, 0.05) 100%);
+            color: rgba(147, 197, 253, 1);
+            border-left: 3px solid rgba(59, 130, 246, 0.8);
         }
 
         .status-success {
-            background: rgba(76, 175, 80, 0.2);
-            color: white;
-            border-left: 4px solid rgba(76, 175, 80, 0.8);
+            background: linear-gradient(135deg, 
+                rgba(16, 185, 129, 0.15) 0%, 
+                rgba(16, 185, 129, 0.05) 100%);
+            color: rgba(167, 243, 208, 1);
+            border-left: 3px solid rgba(16, 185, 129, 0.8);
         }
 
         .status-error {
-            background: rgba(244, 67, 54, 0.2);
-            color: white;
-            border-left: 4px solid rgba(244, 67, 54, 0.8);
+            background: linear-gradient(135deg, 
+                rgba(239, 68, 68, 0.15) 0%, 
+                rgba(239, 68, 68, 0.05) 100%);
+            color: rgba(252, 165, 165, 1);
+            border-left: 3px solid rgba(239, 68, 68, 0.8);
         }
 
         .status-warning {
-            background: rgba(255, 152, 0, 0.2);
-            color: white;
-            border-left: 4px solid rgba(255, 152, 0, 0.8);
+            background: linear-gradient(135deg, 
+                rgba(245, 158, 11, 0.15) 0%, 
+                rgba(245, 158, 11, 0.05) 100%);
+            color: rgba(253, 230, 138, 1);
+            border-left: 3px solid rgba(245, 158, 11, 0.8);
         }
 
         .spinner {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top: 3px solid white;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-top: 3px solid rgba(147, 197, 253, 1);
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
+            width: 24px;
+            height: 24px;
+            animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             display: inline-block;
-            margin-right: 10px;
+            margin-right: 12px;
             vertical-align: middle;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 640px) {
+            .container {
+                padding: 40px 32px;
+                border-radius: 24px;
+            }
+
+            h1 {
+                font-size: 28px;
+                margin-bottom: 36px;
+            }
+
+            #drop-area {
+                padding: 48px 24px;
+                border-radius: 20px;
+            }
+
+            .upload-icon {
+                font-size: 52px;
+            }
+
+            .upload-text {
+                font-size: 18px;
+            }
+
+            .file-label {
+                padding: 14px 32px;
+                font-size: 14px;
+            }
+
+            #status {
+                padding: 18px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Smooth scrolling for iOS */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                -webkit-overflow-scrolling: touch;
+            }
         }
     </style>
 </head>
@@ -364,11 +707,16 @@
         }
 
         async function processZipFile(file) {
-            showStatus('<div class="spinner"></div>Processing ZIP file...', 'info');
+            showProcessing();
 
             try {
+                // Simulate processing stages with progress
+                await updateProgress(30, 'Reading file...');
+                
                 // Read file as ArrayBuffer for proper binary handling
                 const arrayBuffer = await file.arrayBuffer();
+                
+                await updateProgress(50, 'Loading ZIP...');
                 
                 // Load the ZIP file with proper options
                 const zip = await JSZip.loadAsync(arrayBuffer, {
@@ -376,17 +724,22 @@
                     createFolders: true
                 });
                 
+                await updateProgress(65, 'Checking manifest...');
+                
                 // Check if MANIFEST.MF exists in META-INF folder
                 const manifestPath = 'META-INF/MANIFEST.MF';
                 const manifestFile = zip.file(manifestPath);
                 
                 if (!manifestFile) {
+                    hideProcessing();
                     showStatus('MANIFEST.MF not found in META-INF folder', 'error');
                     return;
                 }
 
                 // Get the original file object to preserve metadata
                 const originalFileObj = zip.files[manifestPath];
+                
+                await updateProgress(75, 'Processing content...');
                 
                 // Read the manifest content as string
                 let manifestContent = await manifestFile.async('string');
@@ -395,9 +748,12 @@
                 const devCount = (manifestContent.match(/_DEV/g) || []).length;
                 
                 if (devCount === 0) {
+                    hideProcessing();
                     showStatus('No _DEV found in MANIFEST.MF file', 'warning');
                     return;
                 }
+                
+                await updateProgress(85, 'Updating manifest...');
                 
                 // Remove all _DEV occurrences
                 const updatedContent = manifestContent.replace(/_DEV/g, '');
@@ -411,6 +767,8 @@
                     createFolders: false,
                     comment: originalFileObj.comment
                 });
+                
+                await updateProgress(95, 'Creating new file...');
                 
                 // Generate new ZIP file with proper settings
                 const blob = await zip.generateAsync({
@@ -430,17 +788,116 @@
                     newFileName = file.name.replace('.zip', '_modified.zip');
                 }
                 
+                await updateProgress(100, 'Complete!');
+                
+                // Wait a moment before showing completion
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
                 // Download the modified ZIP
                 downloadBlob(blob, newFileName);
                 
-                showStatus(`✓ Success! Removed ${devCount} occurrences of _DEV. File: ${newFileName}`, 'success');
+                // Hide processing and show pigeon delivery
+                hideProcessing();
+                showPigeonDelivery(devCount, newFileName);
                 
                 // Reset file input
                 fileInput.value = '';
                 
             } catch (error) {
                 console.error('Error processing ZIP:', error);
+                hideProcessing();
                 showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        function showProcessing() {
+            status.style.display = 'block';
+            status.className = 'status-info';
+            status.innerHTML = `
+                <div class="processing-container">
+                    <div class="spinner"></div>
+                    <div class="processing-text">Preparing your file...</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar animating" id="progress-bar"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function hideProcessing() {
+            status.style.display = 'none';
+        }
+
+        async function updateProgress(percent, text) {
+            const progressBar = document.getElementById('progress-bar');
+            const processingText = document.querySelector('.processing-text');
+            
+            if (progressBar) {
+                progressBar.style.width = percent + '%';
+            }
+            if (processingText) {
+                processingText.textContent = text;
+            }
+            
+            // Small delay to show progress
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
+
+        function showPigeonDelivery(devCount, fileName) {
+            // Create pigeon
+            const pigeon = document.createElement('div');
+            pigeon.className = 'pigeon-delivery';
+            pigeon.textContent = '🕊️';
+            document.body.appendChild(pigeon);
+            
+            // Create message bubble
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.innerHTML = `
+                <div style="font-size: 24px; margin-bottom: 8px;">🎉</div>
+                <div>Your file is ready!</div>
+                <div style="font-size: 14px; margin-top: 8px; opacity: 0.7;">
+                    Removed ${devCount} occurrences of _DEV
+                </div>
+            `;
+            document.body.appendChild(bubble);
+            
+            // Add bounce animation after pigeon arrives
+            setTimeout(() => {
+                pigeon.classList.add('pigeon-bounce');
+            }, 3000);
+            
+            // Create confetti
+            createConfetti();
+            
+            // Show success status after animation
+            setTimeout(() => {
+                showStatus(`✓ Success! File downloaded: ${fileName}`, 'success');
+                pigeon.remove();
+                bubble.remove();
+            }, 5000);
+        }
+
+        function createConfetti() {
+            const colors = ['#8a3cff', '#7877c6', '#ff4d6d', '#4ec9b0', '#ffd700'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 8 + 4) + 'px';
+                    confetti.style.height = (Math.random() * 8 + 4) + 'px';
+                    confetti.style.opacity = Math.random() * 0.5 + 0.5;
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3500);
+                }, i * 30);
             }
         }
 
