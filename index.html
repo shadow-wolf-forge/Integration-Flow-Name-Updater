@@ -6,15 +6,11 @@
     <title>Integration Flow Name Updater</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background: #0a0e27;
+            background: radial-gradient(circle at top, #0f172a 0, #020617 40%, #000000 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,915 +18,819 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
+            color: #e5e7eb;
         }
 
-        /* Animated gradient background */
         body::before {
             content: '';
             position: fixed;
-            inset: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 77, 109, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(138, 60, 255, 0.25) 0%, transparent 50%);
-            animation: gradientShift 15s ease infinite;
+            inset: -100px;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(34,197,94,0.25) 0, transparent 50%),
+                radial-gradient(circle at 90% 100%, rgba(16,185,129,0.25) 0, transparent 55%),
+                radial-gradient(circle at 50% 50%, rgba(5,150,105,0.12) 0, transparent 60%);
+            filter: blur(8px);
+            opacity: 0.9;
             z-index: 0;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-            50% {
-                opacity: 0.8;
-                transform: scale(1.1) rotate(5deg);
-            }
-        }
-
-        /* Floating particles */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.15), transparent),
-                radial-gradient(2px 2px at 60% 70%, rgba(255, 255, 255, 0.1), transparent),
-                radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.1), transparent),
-                radial-gradient(1px 1px at 80% 10%, rgba(255, 255, 255, 0.15), transparent),
-                radial-gradient(2px 2px at 90% 60%, rgba(255, 255, 255, 0.1), transparent),
-                radial-gradient(1px 1px at 33% 80%, rgba(255, 255, 255, 0.1), transparent);
-            background-size: 200% 200%;
-            animation: particleFloat 20s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes particleFloat {
-            0%, 100% {
-                background-position: 0% 0%, 100% 100%, 50% 50%, 80% 20%, 10% 90%, 70% 30%;
-            }
-            50% {
-                background-position: 100% 100%, 0% 0%, 70% 80%, 20% 80%, 90% 10%, 30% 70%;
-            }
         }
 
         .container {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border-radius: 32px;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 60px;
-            max-width: 640px;
+            background: rgba(15, 23, 42, 0.78);
+            backdrop-filter: blur(32px) saturate(180%);
+            -webkit-backdrop-filter: blur(32px) saturate(180%);
+            border-radius: 24px;
+            padding: 40px 32px 26px;
+            max-width: 780px;
             width: 100%;
             position: relative;
             z-index: 1;
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow:
+                0 0 0 1px rgba(15, 23, 42, 0.9),
+                0 18px 60px rgba(0, 0, 0, 0.85),
+                0 0 40px rgba(34, 197, 94, 0.35);
+            overflow: hidden;
         }
 
-        .container:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Glass reflection effect */
         .container::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, 
-                rgba(255, 255, 255, 0.08) 0%, 
-                transparent 100%);
-            border-radius: 32px 32px 0 0;
-            pointer-events: none;
-        }
-
-        /* Glow effect on hover */
-        .container::after {
-            content: '';
-            position: absolute;
             inset: -2px;
-            background: linear-gradient(135deg, 
-                rgba(120, 119, 198, 0.4),
-                rgba(255, 77, 109, 0.4),
-                rgba(138, 60, 255, 0.4));
-            border-radius: 32px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            border-radius: 24px;
+            background:
+                conic-gradient(from 180deg,
+                    rgba(16,185,129,0.0),
+                    rgba(22,163,74,0.9),
+                    rgba(22,163,74,0.0),
+                    rgba(22,163,74,0.9),
+                    rgba(16,185,129,0.0));
+            mix-blend-mode: screen;
+            opacity: 0.3;
+            filter: blur(18px);
+            pointer-events: none;
             z-index: -1;
-            filter: blur(20px);
+            animation: neon-rotate 12s linear infinite;
         }
 
-        .container:hover::after {
-            opacity: 0.5;
-        }
+        @keyframes neon-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         h1 {
             text-align: center;
-            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            margin-bottom: 16px;
+            font-size: 26px;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            background: linear-gradient(120deg, #bbf7d0, #4ade80, #22c55e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 48px;
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: -1px;
-            line-height: 1.2;
-            position: relative;
-            z-index: 1;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: #9ca3af;
+            margin-bottom: 20px;
         }
 
         #drop-area {
-            border: 2px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: 64px 32px;
+            border-radius: 18px;
+            padding: 26px 22px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            margin-bottom: 24px;
+            background: radial-gradient(circle at top left, rgba(34,197,94,0.15), transparent 60%),
+                        rgba(15,23,42,0.85);
+            border: 1px solid rgba(55,65,81,0.8);
+            transition: all 0.25s ease;
             position: relative;
             overflow: hidden;
         }
 
-        /* Gradient border animation */
         #drop-area::before {
             content: '';
             position: absolute;
-            inset: -3px;
-            background: linear-gradient(45deg, 
-                #7877c6, 
-                #ff4d6d, 
-                #8a3cff, 
-                #7877c6);
-            background-size: 300% 300%;
-            border-radius: 24px;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg,
+                    rgba(34,197,94,0.75),
+                    rgba(22,163,74,0.25),
+                    rgba(22,163,74,0.75));
             opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-            animation: gradientRotate 3s linear infinite;
-        }
-
-        @keyframes gradientRotate {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        #drop-area:hover::before {
-            opacity: 0.6;
-        }
-
-        /* Shimmer effect */
-        #drop-area::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                transparent 40%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 60%
-            );
-            transform: rotate(45deg);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        #drop-area:hover::after {
-            animation: shimmer 2s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%) translateY(-100%) rotate(45deg);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(100%) translateY(100%) rotate(45deg);
-                opacity: 0;
-            }
+            transition: opacity 0.25s ease;
+            mix-blend-mode: screen;
+            pointer-events: none;
         }
 
         #drop-area.highlight {
-            border-color: rgba(138, 60, 255, 0.6);
-            background: rgba(138, 60, 255, 0.08);
-            transform: scale(1.01);
-            box-shadow: 
-                0 12px 40px rgba(138, 60, 255, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(34,197,94,0.9);
+            box-shadow:
+                0 0 0 1px rgba(22,163,74,0.7),
+                0 0 40px rgba(22,163,74,0.65);
+            transform: translateY(-1px) scale(1.01);
         }
 
-        #drop-area.highlight::before {
-            opacity: 1;
-        }
-
-        #drop-area:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-2px);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
+        #drop-area.highlight::before { opacity: 0.2; }
 
         .upload-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 8px 16px rgba(138, 60, 255, 0.3));
-            position: relative;
-            z-index: 1;
-            display: inline-block;
-            animation: iconFloat 3s ease-in-out infinite;
+            font-size: 38px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 16px rgba(22,163,74,0.7);
         }
 
-        @keyframes iconFloat {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
+        .upload-text { font-size: 16px; color: #e5e7eb; margin-bottom: 4px; font-weight: 500; }
+        .upload-hint { font-size: 12px; color: #9ca3af; }
 
-        .upload-text {
-            font-size: 22px;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 12px;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .upload-hint {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 400;
-            position: relative;
-            z-index: 1;
-        }
-
-        #file-input {
-            display: none;
-        }
+        #file-input { display: none; }
 
         .file-label {
             display: inline-block;
-            padding: 16px 40px;
-            background: linear-gradient(135deg, 
-                rgba(138, 60, 255, 0.8) 0%, 
-                rgba(120, 119, 198, 0.8) 100%);
-            color: white;
-            border-radius: 16px;
+            margin-top: 14px;
+            padding: 9px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.9);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #e5e7eb;
+            background: radial-gradient(circle at top, rgba(148,163,184,0.25), transparent 60%);
+            backdrop-filter: blur(10px);
             cursor: pointer;
-            font-weight: 600;
-            font-size: 15px;
-            letter-spacing: 0.3px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 
-                0 8px 24px rgba(138, 60, 255, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .file-label::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.2) 0%, 
-                transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .file-label:hover::before {
-            opacity: 1;
+            transition: all 0.2s ease;
         }
 
         .file-label:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                0 16px 40px rgba(138, 60, 255, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            border-color: rgba(34,197,94,0.9);
+            box-shadow: 0 0 18px rgba(22,163,74,0.7);
+            color: #bbf7d0;
+            transform: translateY(-1px);
         }
 
-        .file-label:active {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 8px 24px rgba(138, 60, 255, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        .actions {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 9px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(55,65,81,0.9);
+            background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(2,6,23,0.95));
+            color: #e5e7eb;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+            text-align: center;
+        }
+
+        .action-btn.primary {
+            border-color: rgba(34,197,94,0.9);
+            box-shadow:
+                0 0 0 1px rgba(22,163,74,0.7),
+                0 10px 30px rgba(22,163,74,0.45);
+            background: radial-gradient(circle at top, rgba(22,163,74,0.4), rgba(5,46,22,0.98));
+        }
+
+        .action-btn.danger {
+            border-color: rgba(239,68,68,0.9);
+            background: radial-gradient(circle at top, rgba(127,29,29,0.7), rgba(15,23,42,0.95));
+            box-shadow:
+                0 0 0 1px rgba(127,29,29,0.9),
+                0 10px 30px rgba(127,29,29,0.6);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(34,197,94,0.85);
+            box-shadow:
+                0 0 0 1px rgba(22,163,74,0.9),
+                0 14px 35px rgba(22,163,74,0.55);
+        }
+
+        .action-btn.danger:hover {
+            border-color: rgba(239,68,68,0.95);
+            box-shadow:
+                0 0 0 1px rgba(239,68,68,0.95),
+                0 14px 35px rgba(239,68,68,0.7);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 0 1px rgba(22,163,74,0.7),
+                0 8px 20px rgba(22,163,74,0.45);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+            border-color: rgba(55,65,81,0.6);
+        }
+
+        #bundle-panel {
+            margin-top: 18px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(55,65,81,0.9);
+            background: rgba(15,23,42,0.9);
+            font-size: 12px;
+            display: none;
+        }
+
+        #bundle-panel-label {
+            color: #9ca3af;
+            margin-bottom: 6px;
+        }
+
+        #bundle-input {
+            width: 100%;
+            padding: 8px 9px;
+            border-radius: 9px;
+            border: 1px solid rgba(55,65,81,0.9);
+            background: rgba(15,23,42,0.95);
+            color: #e5e7eb;
+            font-size: 12px;
+            outline: none;
+            transition: all 0.2s ease;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        #bundle-input:focus {
+            border-color: rgba(34,197,94,0.9);
+            box-shadow: 0 0 0 1px rgba(22,163,74,0.9);
         }
 
         #status {
-            margin-top: 32px;
-            padding: 20px 24px;
-            border-radius: 16px;
-            text-align: center;
-            font-weight: 500;
-            font-size: 15px;
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            font-size: 12px;
             display: none;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                0 8px 24px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            animation: statusFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            line-height: 1.6;
-            position: relative;
+            border: 1px solid rgba(55,65,81,0.9);
+            background: rgba(15,23,42,0.95);
         }
 
-        @keyframes statusFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .status-info {
+            border-color: rgba(59,130,246,0.9);
+            background: radial-gradient(circle at top, rgba(59,130,246,0.22), rgba(15,23,42,0.96));
+            color: #dbeafe;
         }
 
-        /* Processing animation */
+        .status-success {
+            border-color: rgba(34,197,94,0.9);
+            background: radial-gradient(circle at top, rgba(34,197,94,0.22), rgba(6,24,15,0.97));
+            color: #bbf7d0;
+        }
+
+        .status-error {
+            border-color: rgba(239,68,68,0.9);
+            background: radial-gradient(circle at top, rgba(239,68,68,0.22), rgba(30,7,7,0.97));
+            color: #fecaca;
+        }
+
+        .status-warning {
+            border-color: rgba(245,158,11,0.9);
+            background: radial-gradient(circle at top, rgba(245,158,11,0.25), rgba(24,20,5,0.97));
+            color: #fef3c7;
+        }
+
         .processing-container {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 20px;
-            padding: 20px 0;
+            gap: 10px;
         }
 
+        .spinner {
+            border: 3px solid rgba(148,163,184,0.22);
+            border-top: 3px solid rgba(34,197,94,0.95);
+            border-radius: 999px;
+            width: 18px;
+            height: 18px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .processing-text { font-size: 12px; }
+
         .progress-bar-container {
+            margin-top: 6px;
             width: 100%;
-            max-width: 300px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.95);
             overflow: hidden;
-            position: relative;
+            border: 1px solid rgba(31,41,55,0.9);
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, 
-                rgba(138, 60, 255, 0.8) 0%, 
-                rgba(120, 119, 198, 0.8) 100%);
-            border-radius: 10px;
             width: 0%;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px rgba(138, 60, 255, 0.5);
+            border-radius: inherit;
+            background: linear-gradient(90deg, #22c55e, #4ade80, #bbf7d0);
+            box-shadow: 0 0 16px rgba(34,197,94,0.9);
+            transition: width 0.25s ease;
         }
 
-        .progress-bar.animating {
-            animation: progressGlow 1.5s ease-in-out infinite;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes progressGlow {
-            0%, 100% {
-                box-shadow: 0 0 10px rgba(138, 60, 255, 0.5);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(138, 60, 255, 0.8);
-            }
-        }
-
-        .processing-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* Pigeon delivery animation */
-        .pigeon-delivery {
-            position: fixed;
-            top: 50%;
-            left: -100px;
-            transform: translateY(-50%);
-            font-size: 80px;
-            z-index: 1000;
-            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
-            animation: pigeonFly 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            pointer-events: none;
-        }
-
-        @keyframes pigeonFly {
-            0% {
-                left: -100px;
-                transform: translateY(-50%) rotate(-10deg);
-            }
-            45% {
-                left: 50%;
-                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1.2);
-            }
-            55% {
-                left: 50%;
-                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1.2);
-            }
-            100% {
-                left: 50%;
-                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1);
-            }
-        }
-
-        .pigeon-bounce {
-            animation: pigeonBounce 0.6s ease-in-out infinite;
-        }
-
-        @keyframes pigeonBounce {
-            0%, 100% {
-                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1);
-            }
-            50% {
-                transform: translateY(-50%) translateX(-50%) rotate(0deg) scale(1.05) translateY(-5px);
-            }
-        }
-
-        /* Message bubble */
-        .message-bubble {
-            position: fixed;
-            top: calc(50% + 60px);
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            z-index: 1001;
-            animation: bubbleAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) 3s forwards;
-            color: #0a0e27;
-            font-weight: 600;
-            font-size: 18px;
-            text-align: center;
-            pointer-events: none;
-        }
-
-        .message-bubble::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 15px solid rgba(255, 255, 255, 0.95);
-        }
-
-        @keyframes bubbleAppear {
-            0% {
-                transform: translateX(-50%) scale(0);
-                opacity: 0;
-            }
-            50% {
-                transform: translateX(-50%) scale(1.1);
-            }
-            100% {
-                transform: translateX(-50%) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #8a3cff;
-            position: fixed;
-            top: -10px;
-            z-index: 999;
-            animation: confettiFall 3s linear forwards;
-        }
-
-        @keyframes confettiFall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .status-info {
-            background: linear-gradient(135deg, 
-                rgba(59, 130, 246, 0.15) 0%, 
-                rgba(59, 130, 246, 0.05) 100%);
-            color: rgba(147, 197, 253, 1);
-            border-left: 3px solid rgba(59, 130, 246, 0.8);
-        }
-
-        .status-success {
-            background: linear-gradient(135deg, 
-                rgba(16, 185, 129, 0.15) 0%, 
-                rgba(16, 185, 129, 0.05) 100%);
-            color: rgba(167, 243, 208, 1);
-            border-left: 3px solid rgba(16, 185, 129, 0.8);
-        }
-
-        .status-error {
-            background: linear-gradient(135deg, 
-                rgba(239, 68, 68, 0.15) 0%, 
-                rgba(239, 68, 68, 0.05) 100%);
-            color: rgba(252, 165, 165, 1);
-            border-left: 3px solid rgba(239, 68, 68, 0.8);
-        }
-
-        .status-warning {
-            background: linear-gradient(135deg, 
-                rgba(245, 158, 11, 0.15) 0%, 
-                rgba(245, 158, 11, 0.05) 100%);
-            color: rgba(253, 230, 138, 1);
-            border-left: 3px solid rgba(245, 158, 11, 0.8);
-        }
-
-        .spinner {
-            border: 3px solid rgba(255, 255, 255, 0.15);
-            border-top: 3px solid rgba(147, 197, 253, 1);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            display: inline-block;
-            margin-right: 12px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive design */
         @media (max-width: 640px) {
-            .container {
-                padding: 40px 32px;
-                border-radius: 24px;
-            }
-
-            h1 {
-                font-size: 28px;
-                margin-bottom: 36px;
-            }
-
-            #drop-area {
-                padding: 48px 24px;
-                border-radius: 20px;
-            }
-
-            .upload-icon {
-                font-size: 52px;
-            }
-
-            .upload-text {
-                font-size: 18px;
-            }
-
-            .file-label {
-                padding: 14px 32px;
-                font-size: 14px;
-            }
-
-            #status {
-                padding: 18px 20px;
-                font-size: 14px;
-            }
-        }
-
-        /* Smooth scrolling for iOS */
-        @supports (-webkit-touch-callout: none) {
-            body {
-                -webkit-overflow-scrolling: touch;
-            }
+            .container { padding: 28px 20px 18px; border-radius: 20px; }
+            h1 { font-size: 22px; }
+            .actions { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Integration Flow Name Updater</h1>
-        
-        <div id="drop-area">
-            <div class="upload-icon">📦</div>
-            <p class="upload-text">Drop your ZIP file here</p>
-            <p class="upload-hint">or click to browse</p>
-            <label for="file-input" class="file-label" onclick="event.stopPropagation();">Choose ZIP File</label>
-        </div>
-        
-        <input type="file" id="file-input" accept=".zip">
-        
-        <div id="status"></div>
+<div class="container">
+    <h1>Integration Flow Name Updater</h1>
+    <p class="subtitle">Upload your CPI IFlow ZIP and update MANIFEST.MF names safely.</p>
+
+    <div id="drop-area">
+        <div class="upload-icon">📦</div>
+        <p class="upload-text">Drop your ZIP file here</p>
+        <p class="upload-hint">or click below to browse</p>
+        <label for="file-input" class="file-label" onclick="event.stopPropagation();">Choose ZIP File</label>
     </div>
 
-    <script>
-        const dropArea = document.getElementById('drop-area');
-        const fileInput = document.getElementById('file-input');
-        const status = document.getElementById('status');
+    <input type="file" id="file-input" accept=".zip">
 
-        // Prevent default drag behaviors
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-            document.body.addEventListener(eventName, preventDefaults, false);
-        });
+    <div id="bundle-panel">
+        <div id="bundle-panel-label">Bundle-Name (editable):</div>
+        <input id="bundle-input" type="text" placeholder="Bundle-Name will appear here after loading the ZIP">
+    </div>
 
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    <div class="actions">
+        <button class="action-btn primary" id="btn-remove-dev">
+            Remove <code>_DEV</code>
+        </button>
+        <button class="action-btn" id="btn-replace-dev-qs4">
+            Replace <code>_DEV</code> → <code>_QS4-110</code>
+        </button>
+        <button class="action-btn danger" id="btn-remove-qs4">
+            Remove <code>_QS4-110</code>
+        </button>
+        <button class="action-btn primary" id="btn-custom-bundle">
+            Custom Bundle-Name Replace
+        </button>
+    </div>
 
-        // Highlight drop area when item is dragged over it
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => {
-                dropArea.classList.add('highlight');
-            }, false);
-        });
+    <div id="status"></div>
+</div>
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => {
-                dropArea.classList.remove('highlight');
-            }, false);
-        });
+<script>
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file-input');
+    const statusEl = document.getElementById('status');
+    const btnRemoveDev = document.getElementById('btn-remove-dev');
+    const btnReplaceDevQs4 = document.getElementById('btn-replace-dev-qs4');
+    const btnRemoveQs4 = document.getElementById('btn-remove-qs4');
+    const btnCustomBundle = document.getElementById('btn-custom-bundle');
+    const bundlePanel = document.getElementById('bundle-panel');
+    const bundleInput = document.getElementById('bundle-input');
 
-        // Handle dropped files
-        dropArea.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            handleFiles(files);
+    let currentFile = null;
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.add('highlight');
         }, false);
+    });
 
-        // Handle file input change
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.remove('highlight');
+        }, false);
+    });
 
-        // Click on drop area to trigger file input (but not on the label)
-        dropArea.addEventListener('click', (e) => {
-            // Only trigger if not clicking on the label
-            if (e.target.tagName !== 'LABEL' && !e.target.closest('label')) {
-                fileInput.click();
-            }
-        });
+    dropArea.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }, false);
 
-        function handleFiles(files) {
-            if (files.length === 0) {
-                showStatus('Please select a file', 'error');
-                return;
-            }
+    fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
 
-            const file = files[0];
-            
-            if (!file.name.endsWith('.zip')) {
-                showStatus('Please upload a ZIP file', 'error');
-                return;
-            }
+    dropArea.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'LABEL' && !e.target.closest('label')) {
+            fileInput.click();
+        }
+    });
 
-            processZipFile(file);
+    function handleFiles(files) {
+        if (!files || files.length === 0) {
+            showStatus('Please select a ZIP file.', 'error');
+            setStateNoFile();
+            return;
         }
 
-        async function processZipFile(file) {
-            showProcessing();
+        const file = files[0];
 
-            try {
-                // Simulate processing stages with progress
-                await updateProgress(30, 'Reading file...');
+        if (!file.name.endsWith('.zip')) {
+            showStatus('Only ZIP files are supported.', 'error');
+            setStateNoFile();
+            return;
+        }
+
+        currentFile = file;
+        showStatus(`File loaded: ${file.name}`, 'info');
+        toggleActionButtons(true);
+        preloadManifest(file);
+    }
+
+    function setStateNoFile() {
+        currentFile = null;
+        bundlePanel.style.display = 'none';
+        bundleInput.value = '';
+        toggleActionButtons(false);
+    }
+
+    function toggleActionButtons(enabled) {
+        [btnRemoveDev, btnReplaceDevQs4, btnRemoveQs4, btnCustomBundle].forEach(btn => {
+            btn.disabled = !enabled;
+        });
+    }
+
+    async function preloadManifest(file) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const zip = await JSZip.loadAsync(arrayBuffer, { checkCRC32: true, createFolders: true });
+
+            const manifestPath = 'META-INF/MANIFEST.MF';
+            const manifestFile = zip.file(manifestPath);
+
+            if (!manifestFile) {
+                showStatus('MANIFEST.MF not found under META-INF.', 'warning');
+                bundlePanel.style.display = 'none';
+                bundleInput.value = '';
+                return;
+            }
+
+            const content = await manifestFile.async('string');
+            const normalizedContent = normalizeManifest(content);
+            const bundleName = extractBundleNameValue(normalizedContent);
+            if (bundleName) {
+                bundleInput.value = bundleName;
+                bundlePanel.style.display = 'block';
+            } else {
+                bundleInput.value = '';
+                bundlePanel.style.display = 'none';
+            }
+
+        } catch (e) {
+            console.error('Error preloading manifest:', e);
+            showStatus('Error reading MANIFEST.MF for preview: ' + e.message, 'warning');
+            bundlePanel.style.display = 'none';
+            bundleInput.value = '';
+        }
+    }
+
+    // Normalize manifest: unwrap continuation lines to make single lines per property
+    function normalizeManifest(content) {
+        return content.replace(/(\r?\n) +/g, '');
+    }
+
+    // Re-wrap manifest lines to maintain 72-byte limit per JAR spec
+    function rewrapManifest(content) {
+        const lineBreak = content.includes('\r\n') ? '\r\n' : '\n';
+        const lines = content.split(/\r?\n/);
+        const wrapped = [];
+        
+        for (const line of lines) {
+            if (line.length <= 72) {
+                wrapped.push(line);
+            } else {
+                // Split line at 72 bytes for first line, then 71 bytes for continuation lines (space takes 1 byte)
+                let remaining = line;
+                let isFirst = true;
                 
-                // Read file as ArrayBuffer for proper binary handling
-                const arrayBuffer = await file.arrayBuffer();
-                
-                await updateProgress(50, 'Loading ZIP...');
-                
-                // Load the ZIP file with proper options
-                const zip = await JSZip.loadAsync(arrayBuffer, {
-                    checkCRC32: true,
-                    createFolders: true
-                });
-                
-                await updateProgress(65, 'Checking manifest...');
-                
-                // Check if MANIFEST.MF exists in META-INF folder
-                const manifestPath = 'META-INF/MANIFEST.MF';
-                const manifestFile = zip.file(manifestPath);
-                
-                if (!manifestFile) {
-                    hideProcessing();
-                    showStatus('MANIFEST.MF not found in META-INF folder', 'error');
-                    return;
+                while (remaining.length > 0) {
+                    if (isFirst) {
+                        wrapped.push(remaining.substring(0, 72));
+                        remaining = remaining.substring(72);
+                        isFirst = false;
+                    } else {
+                        if (remaining.length > 71) {
+                            wrapped.push(' ' + remaining.substring(0, 71));
+                            remaining = remaining.substring(71);
+                        } else {
+                            wrapped.push(' ' + remaining);
+                            remaining = '';
+                        }
+                    }
                 }
+            }
+        }
+        
+        return wrapped.join(lineBreak);
+    }
 
-                // Get the original file object to preserve metadata
-                const originalFileObj = zip.files[manifestPath];
-                
-                await updateProgress(75, 'Processing content...');
-                
-                // Read the manifest content as string
-                let manifestContent = await manifestFile.async('string');
-                
-                // Count occurrences before replacement
-                const devCount = (manifestContent.match(/_DEV/g) || []).length;
-                
+    // Extract the logical Bundle-Name value (single line, trimmed)
+    function extractBundleNameValue(content) {
+        const bundleMatch = content.match(/^Bundle-Name:\s*(.+)$/m);
+        return bundleMatch ? bundleMatch[1].trim() : null;
+    }
+
+    // Count ALL occurrences of bundle value after normalization
+    function findAllBundleNameOccurrences(content, bundleValue) {
+        const normalizedContent = normalizeManifest(content);
+        const escapedValue = bundleValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(escapedValue, 'g');
+        return (normalizedContent.match(regex) || []).length;
+    }
+
+    btnRemoveDev.addEventListener('click', () => {
+        if (!currentFile) {
+            showStatus('Please upload a ZIP file first.', 'warning');
+            return;
+        }
+        processZipFile(currentFile, 'removeDev');
+    });
+
+    btnReplaceDevQs4.addEventListener('click', () => {
+        if (!currentFile) {
+            showStatus('Please upload a ZIP file first.', 'warning');
+            return;
+        }
+        processZipFile(currentFile, 'replaceDevQs4');
+    });
+
+    btnRemoveQs4.addEventListener('click', () => {
+        if (!currentFile) {
+            showStatus('Please upload a ZIP file first.', 'warning');
+            return;
+        }
+        processZipFile(currentFile, 'removeQs4');
+    });
+
+    btnCustomBundle.addEventListener('click', () => {
+        if (!currentFile) {
+            showStatus('Please upload a ZIP file first.', 'warning');
+            return;
+        }
+        processZipFile(currentFile, 'customBundle');
+    });
+
+    async function processZipFile(file, mode) {
+        showProcessing('Preparing your file...');
+        toggleActionButtons(false);
+
+        try {
+            await updateProgress(20, 'Reading ZIP file...');
+            const arrayBuffer = await file.arrayBuffer();
+
+            await updateProgress(45, 'Loading archive...');
+            const zip = await JSZip.loadAsync(arrayBuffer, {
+                checkCRC32: true,
+                createFolders: true
+            });
+
+            await updateProgress(60, 'Locating MANIFEST.MF...');
+            const manifestPath = 'META-INF/MANIFEST.MF';
+            const manifestFile = zip.file(manifestPath);
+
+            if (!manifestFile) {
+                hideProcessing();
+                showStatus('MANIFEST.MF not found under META-INF.', 'error');
+                toggleActionButtons(true);
+                return;
+            }
+
+            const originalFileObj = zip.files[manifestPath];
+
+            await updateProgress(70, 'Reading manifest...');
+            let originalContent = await manifestFile.async('string');
+            
+            await updateProgress(75, 'Normalizing manifest...');
+            let normalizedContent = normalizeManifest(originalContent);
+            let updatedContent = normalizedContent;
+            let successMessage = '';
+
+            if (mode === 'removeDev') {
+                const devCount = (normalizedContent.match(/_DEV/g) || []).length;
                 if (devCount === 0) {
                     hideProcessing();
-                    showStatus('No _DEV found in MANIFEST.MF file', 'warning');
+                    showStatus('No occurrences of _DEV found in MANIFEST.MF.', 'warning');
+                    toggleActionButtons(true);
+                    return;
+                }
+                await updateProgress(85, 'Removing ALL _DEV occurrences...');
+                updatedContent = normalizedContent.replace(/_DEV/g, '');
+                successMessage = `${devCount} occurrence(s) of _DEV removed from ALL locations`;
+            }
+
+            if (mode === 'replaceDevQs4') {
+                const devCount = (normalizedContent.match(/_DEV/g) || []).length;
+                if (devCount === 0) {
+                    hideProcessing();
+                    showStatus('No occurrences of _DEV found in MANIFEST.MF.', 'warning');
+                    toggleActionButtons(true);
+                    return;
+                }
+                await updateProgress(85, 'Replacing ALL _DEV with _QS4-110...');
+                updatedContent = normalizedContent.replace(/_DEV/g, '_QS4-110');
+                successMessage = `${devCount} occurrence(s) of _DEV → _QS4-110 (ALL locations)`;
+            }
+
+            if (mode === 'removeQs4') {
+                const qs4Count = (normalizedContent.match(/_QS4-110/g) || []).length;
+                if (qs4Count === 0) {
+                    hideProcessing();
+                    showStatus('No occurrences of _QS4-110 found in MANIFEST.MF.', 'warning');
+                    toggleActionButtons(true);
+                    return;
+                }
+                await updateProgress(85, 'Removing ALL _QS4-110 occurrences...');
+                updatedContent = normalizedContent.replace(/_QS4-110/g, '');
+                successMessage = `${qs4Count} occurrence(s) of _QS4-110 removed from ALL locations`;
+            }
+
+            if (mode === 'customBundle') {
+                await updateProgress(80, 'Analyzing Bundle-Name...');
+                
+                const oldBundleValue = extractBundleNameValue(normalizedContent);
+                const newBundleValue = (bundleInput.value || '').trim();
+                
+                if (!oldBundleValue) {
+                    hideProcessing();
+                    showStatus('No Bundle-Name found in MANIFEST.MF.', 'warning');
+                    toggleActionButtons(true);
                     return;
                 }
                 
-                await updateProgress(85, 'Updating manifest...');
-                
-                // Remove all _DEV occurrences
-                const updatedContent = manifestContent.replace(/_DEV/g, '');
-                
-                // Update the file while preserving all original metadata
-                zip.file(manifestPath, updatedContent, {
-                    binary: false,
-                    date: originalFileObj.date,
-                    unixPermissions: originalFileObj.unixPermissions,
-                    dosPermissions: originalFileObj.dosPermissions,
-                    createFolders: false,
-                    comment: originalFileObj.comment
-                });
-                
-                await updateProgress(95, 'Creating new file...');
-                
-                // Generate new ZIP file with proper settings
-                const blob = await zip.generateAsync({
-                    type: 'blob',
-                    compression: 'DEFLATE',
-                    compressionOptions: {
-                        level: 6
-                    },
-                    mimeType: 'application/zip'
-                });
-                
-                // Create new filename by removing _DEV
-                let newFileName = file.name.replace(/_DEV/g, '');
-                
-                // If filename didn't change, add _modified suffix
-                if (newFileName === file.name) {
-                    newFileName = file.name.replace('.zip', '_modified.zip');
+                if (!newBundleValue) {
+                    hideProcessing();
+                    showStatus('New Bundle-Name cannot be empty. Edit it in the input box.', 'error');
+                    toggleActionButtons(true);
+                    return;
                 }
+
+                const occurrences = findAllBundleNameOccurrences(originalContent, oldBundleValue);
+                if (occurrences === 0) {
+                    hideProcessing();
+                    showStatus('Original Bundle-Name not found for replacement.', 'warning');
+                    toggleActionButtons(true);
+                    return;
+                }
+
+                await updateProgress(90, `Replacing ${occurrences} Bundle-Name occurrences...`);
                 
-                await updateProgress(100, 'Complete!');
+                // Replace ALL occurrences in normalized content
+                const escapedOldValue = oldBundleValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                updatedContent = normalizedContent.replace(new RegExp(escapedOldValue, 'g'), newBundleValue);
                 
-                // Wait a moment before showing completion
-                await new Promise(resolve => setTimeout(resolve, 300));
-                
-                // Download the modified ZIP
-                downloadBlob(blob, newFileName);
-                
-                // Hide processing and show pigeon delivery
-                hideProcessing();
-                showPigeonDelivery(devCount, newFileName);
-                
-                // Reset file input
-                fileInput.value = '';
-                
-            } catch (error) {
-                console.error('Error processing ZIP:', error);
-                hideProcessing();
-                showStatus('Error: ' + error.message, 'error');
+                successMessage = `${occurrences} occurrence(s) replaced (ALL 4 locations)`;
             }
+
+            // Re-wrap the manifest to maintain proper format
+            await updateProgress(93, 'Re-wrapping manifest lines...');
+            const finalContent = rewrapManifest(updatedContent);
+
+            await finalizeZip(
+                zip,
+                manifestPath,
+                originalFileObj,
+                finalContent,
+                file,
+                successMessage
+            );
+
+        } catch (error) {
+            console.error('Error processing ZIP:', error);
+            hideProcessing();
+            showStatus('Error: ' + error.message, 'error');
+            toggleActionButtons(true);
+        }
+    }
+
+    function bundleNameToSafeFileName(bundleName) {
+        if (!bundleName) return null;
+        const safe = bundleName
+            .replace(/[\\\/:*?"<>|]/g, '_')
+            .replace(/\s+/g, '_')
+            .replace(/_{2,}/g, '_')
+            .slice(0, 150);
+        return safe || null;
+    }
+
+    async function finalizeZip(zip, manifestPath, originalFileObj, updatedContent, file, successMessage) {
+        await updateProgress(96, 'Building updated ZIP...');
+
+        zip.file(manifestPath, updatedContent, {
+            binary: false,
+            date: originalFileObj.date,
+            unixPermissions: originalFileObj.unixPermissions,
+            dosPermissions: originalFileObj.dosPermissions,
+            createFolders: false,
+            comment: originalFileObj.comment
+        });
+
+        const blob = await zip.generateAsync({
+            type: 'blob',
+            compression: 'DEFLATE',
+            compressionOptions: { level: 6 },
+            mimeType: 'application/zip'
+        });
+
+        const normalizedForFileName = normalizeManifest(updatedContent);
+        const updatedBundleName = extractBundleNameValue(normalizedForFileName);
+        let newFileName;
+        const safeFromBundle = bundleNameToSafeFileName(updatedBundleName);
+
+        if (safeFromBundle) {
+            newFileName = safeFromBundle + '.zip';
+        } else {
+            let base = file.name;
+            if (!base.toLowerCase().endsWith('.zip')) base += '.zip';
+            const dotIndex = base.toLowerCase().lastIndexOf('.zip');
+            newFileName = base.slice(0, dotIndex) + '_updated.zip';
         }
 
-        function showProcessing() {
-            status.style.display = 'block';
-            status.className = 'status-info';
-            status.innerHTML = `
-                <div class="processing-container">
-                    <div class="spinner"></div>
-                    <div class="processing-text">Preparing your file...</div>
+        await updateProgress(100, 'Finalizing download...');
+        await new Promise(r => setTimeout(r, 250));
+
+        downloadBlob(blob, newFileName);
+
+        hideProcessing();
+        showStatus('✓ ' + successMessage + '. Downloaded as: ' + newFileName, 'success');
+        toggleActionButtons(true);
+        fileInput.value = '';
+        setStateNoFile();
+    }
+
+    function showProcessing(text) {
+        statusEl.style.display = 'block';
+        statusEl.className = 'status-info';
+        statusEl.innerHTML = `
+            <div class="processing-container">
+                <div class="spinner"></div>
+                <div>
+                    <div class="processing-text">${text}</div>
                     <div class="progress-bar-container">
-                        <div class="progress-bar animating" id="progress-bar"></div>
+                        <div class="progress-bar" id="progress-bar"></div>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        `;
+    }
 
-        function hideProcessing() {
-            status.style.display = 'none';
-        }
+    function hideProcessing() {
+        statusEl.style.display = 'none';
+    }
 
-        async function updateProgress(percent, text) {
-            const progressBar = document.getElementById('progress-bar');
-            const processingText = document.querySelector('.processing-text');
-            
-            if (progressBar) {
-                progressBar.style.width = percent + '%';
-            }
-            if (processingText) {
-                processingText.textContent = text;
-            }
-            
-            // Small delay to show progress
-            await new Promise(resolve => setTimeout(resolve, 300));
+    async function updateProgress(percent, text) {
+        const bar = document.getElementById('progress-bar');
+        const processingText = statusEl.querySelector('.processing-text');
+        if (bar) {
+            bar.style.width = percent + '%';
         }
+        if (processingText && text) {
+            processingText.textContent = text;
+        }
+        await new Promise(r => setTimeout(r, 160));
+    }
 
-        function showPigeonDelivery(devCount, fileName) {
-            // Create pigeon
-            const pigeon = document.createElement('div');
-            pigeon.className = 'pigeon-delivery';
-            pigeon.textContent = '🕊️';
-            document.body.appendChild(pigeon);
-            
-            // Create message bubble
-            const bubble = document.createElement('div');
-            bubble.className = 'message-bubble';
-            bubble.innerHTML = `
-                <div style="font-size: 24px; margin-bottom: 8px;">🎉</div>
-                <div>Your file is ready!</div>
-                <div style="font-size: 14px; margin-top: 8px; opacity: 0.7;">
-                    Removed ${devCount} occurrences of _DEV
-                </div>
-            `;
-            document.body.appendChild(bubble);
-            
-            // Add bounce animation after pigeon arrives
-            setTimeout(() => {
-                pigeon.classList.add('pigeon-bounce');
-            }, 3000);
-            
-            // Create confetti
-            createConfetti();
-            
-            // Show success status after animation
-            setTimeout(() => {
-                showStatus(`✓ Success! File downloaded: ${fileName}`, 'success');
-                pigeon.remove();
-                bubble.remove();
-            }, 5000);
-        }
+    function downloadBlob(blob, filename) {
+        const properBlob = new Blob([blob], { type: 'application/zip' });
+        const url = URL.createObjectURL(properBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 250);
+    }
 
-        function createConfetti() {
-            const colors = ['#8a3cff', '#7877c6', '#ff4d6d', '#4ec9b0', '#ffd700'];
-            const confettiCount = 50;
-            
-            for (let i = 0; i < confettiCount; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = (Math.random() * 8 + 4) + 'px';
-                    confetti.style.height = (Math.random() * 8 + 4) + 'px';
-                    confetti.style.opacity = Math.random() * 0.5 + 0.5;
-                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 3500);
-                }, i * 30);
-            }
-        }
+    function showStatus(message, type) {
+        statusEl.style.display = 'block';
+        statusEl.textContent = message;
+        statusEl.className = '';
+        statusEl.classList.add('status-' + type);
+    }
 
-        function downloadBlob(blob, filename) {
-            // Create proper blob with explicit MIME type
-            const properBlob = new Blob([blob], { type: 'application/zip' });
-            const url = URL.createObjectURL(properBlob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = filename;
-            
-            // Set additional attributes to help browsers recognize the file
-            a.setAttribute('type', 'application/zip');
-            
-            document.body.appendChild(a);
-            
-            // Trigger download
-            a.click();
-            
-            // Cleanup
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 250);
-        }
-
-        function showStatus(message, type) {
-            status.style.display = 'block';
-            status.innerHTML = message;
-            status.className = '';
-            status.classList.add('status-' + type);
-        }
-    </script>
+    toggleActionButtons(false);
+</script>
 </body>
 </html>
